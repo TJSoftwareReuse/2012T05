@@ -59,7 +59,7 @@ DealWarning dealWarning = new DealWarning();
 DealWarning dealWarning = new DealWarning(warningMsg);
 
 //输入了告警信息和告警文件地址
-DealWearning dealWarning = new DealWarning(warningMsg, warningFile);
+DealWarning dealWarning = new DealWarning(warningMsg, warningFile);
 
 ```
 
