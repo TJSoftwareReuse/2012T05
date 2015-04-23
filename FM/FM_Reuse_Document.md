@@ -53,10 +53,10 @@ import warning.DealWarning;
 
 ```
 //没有输入告警信息和告警文件地址，文件地址为默认地址："./error_yyyy_mm_dd.txt"(当前的日期)
-DealWearning dealWarning = new DealWarning();
+DealWarning dealWarning = new DealWarning();
 
 //只输入了告警信息，告警文件默认地址为"./error_yyyy_mm_dd.txt"(当前的日期)
-DealWearning dealWarning = new DealWarning(warningMsg);
+DealWarning dealWarning = new DealWarning(warningMsg);
 
 //输入了告警信息和告警文件地址
 DealWearning dealWarning = new DealWarning(warningMsg, warningFile);
@@ -66,7 +66,7 @@ DealWearning dealWarning = new DealWarning(warningMsg, warningFile);
 *	将告警信息写入告警文件
 
 ```
-dealWearing.OutputInfo();
+dealWaring.OutputInfo();
 
 ```
 
