@@ -38,24 +38,35 @@ public class Main {
         MyCustomer serverGetRequestCustomer = new MyCustomer(activemqURL, RequestQueueName);
         serverGetRequestCustomer.conStart();
 
+        System.out.println("Server Start .....");
+
         //have available license to create
         while (true) {
             String requestMsg = serverGetRequestCustomer.getMsg(); //receive request message from client
             //PM receive msg
             PM.sendPMMessage("ReceiveMessage", 1);
+            System.out.println(requestMsg + "/////////////");
             if (serverLicense.inLicense()) {
+                System.out.println("Have license //////////");
                 //get license success
                 //add success FM message
                 dealWarning.OutputInfo("Provide Service");
                 //add PM provider service msg
                 PM.sendPMMessage("ProvideService", 1);
                 //create thread of search model
-//                Myserver server = new Myserver(requestMsg);
-//                Thread t = new Thread(server);
-//                t.start();
+                Myserver server = new Myserver(requestMsg);
+                Thread t = new Thread(server);
+                System.out.println("Create new Thread ////////");
+                t.start();
             } else {
                 //get license failed
+                String queueName = requestMsg + "S";
+                MyProducer errorProducer = new MyProducer(activemqURL, queueName);
+                errorProducer.connStart();
+                errorProducer.sendMsg("Don't have license, cannot offer service anymore!!!!!");
+                errorProducer.connClose();
                 //add failed FM message
+                System.out.println("Don't have license /////////");
                 dealWarning.OutputInfo("Reject Service");
                 //add PM reject service msg
                 PM.sendPMMessage("RejectService", 1);
