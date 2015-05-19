@@ -25,7 +25,7 @@ class Myserver implements Runnable {
         MyProducer mp = new MyProducer("tcp://localhost:61616", stcQueue);
         mp.connStart();
         //向客户端发送信息，表示可以接受客户端的名字请求
-        mp.sendMsg("success");
+        mp.sendMsg("OK");
         mp.connClose();
         //建立C->通道
         MyCustomer mc_name = new MyCustomer("tcp://localhost:61616",ctsQueue);
