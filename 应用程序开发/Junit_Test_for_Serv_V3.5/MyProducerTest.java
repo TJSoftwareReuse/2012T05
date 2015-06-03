@@ -1,5 +1,3 @@
-package main.java;
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -9,12 +7,13 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.MessageProducer;
+import javax.jms.MessageConsumer;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-public class MyCustomerTest {
+public class MyProducerTest {
 	
 	@Test
 	public void testGetMsg() throws JMSException {
@@ -32,20 +31,21 @@ public class MyCustomerTest {
 		
 		Destination publicDes = session.createQueue(destinationName);
 		
-		MessageProducer PublicQueue=session.createProducer(publicDes);		
+		MessageConsumer PublicQueue=session.createConsumer(publicDes);		
 		
 		connection.start();
 		
 		//构件模拟的服务器端
-		MyCustomer serverGetRequestCustomer = new MyCustomer(jmsProviderAddress, destinationName);
-		serverGetRequestCustomer.conStart();
+		MyProducer mp = new MyProducer(jmsProviderAddress, destinationName);
+		mp.connStart();
 		 
-		//客户端发送message
-		Message message = session.createTextMessage("test");
-		PublicQueue.send(message);
+		//服务器端发送message
+		mp.sendMsg("test");
 		 
-		//服务器端接收message
-		String msg = serverGetRequestCustomer.getMsg();
+		//客户端接收message
+		Message message = PublicQueue.receive();
+		TextMessage textMessage = (TextMessage) message;
+		String text = textMessage.getText();
 		 
 		//关闭客户端
 		PublicQueue.close();
@@ -53,9 +53,9 @@ public class MyCustomerTest {
 		connection.close();
 		 
 		//关闭服务器端
-		serverGetRequestCustomer.connClose();
+		mp.connClose();
 		 
-		assertEquals("failure - strings not same", "test", msg);
+		assertEquals("failure - strings not same", "test", text);
 	}
 
 }

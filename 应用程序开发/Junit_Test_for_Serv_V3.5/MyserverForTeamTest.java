@@ -1,24 +1,22 @@
-package main.java;
-
 import static org.junit.Assert.*;
-
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.junit.Test;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-public class MyserverTest {
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.junit.Test;
+
+
+public class MyserverForTeamTest {
 
 	@Test
-	public void testRun() throws JMSException {
+	public void testRun() {
 		
 		String jmsProviderAddress = "tcp://localhost:61616";
 		String destinationName = "RequestQueue";
@@ -62,7 +60,7 @@ public class MyserverTest {
 		textMessage = (TextMessage) message4;
 		text = textMessage.getText();
 		assertEquals("failure - the team is wrong ", "5", text);
-		
+		 
 		//测试不存在的组员
 		message2 = session.createTextMessage("张三");
 		message = session.createTextMessage("Q");
@@ -75,11 +73,11 @@ public class MyserverTest {
 		text = textMessage.getText();
 		assertEquals("failure - strings not same ", "404 not found", text);
 		
-		 //关闭客户端
-		 PrivateClientQueue.close();
-		 PrivateServerQueue.close();
-		 session.close();
-		 connection.close();
+		//关闭客户端
+		PrivateClientQueue.close();
+		PrivateServerQueue.close();
+		session.close();
+		connection.close();
 	}
 
 }

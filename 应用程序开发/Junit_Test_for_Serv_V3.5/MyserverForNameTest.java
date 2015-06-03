@@ -1,24 +1,22 @@
-package main.java;
-
 import static org.junit.Assert.*;
-
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.junit.Test;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-public class MyserverTest {
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.junit.Test;
+
+
+public class MyserverForNameTest {
 
 	@Test
-	public void testRun() throws JMSException {
+	public void testRun() {
 		
 		String jmsProviderAddress = "tcp://localhost:61616";
 		String destinationName = "RequestQueue";
@@ -51,8 +49,8 @@ public class MyserverTest {
 		String text = textMessage.getText();
 		assertEquals("failure - the string is not equal to OK ", "OK", text);
 		 
-		//测试是否能够返回组员相应的组别
-		Message message2 = session.createTextMessage("周泽宏");
+		//测试是否能够返回相应组别的成员
+		Message message2 = session.createTextMessage("5");
 		message = session.createTextMessage("Q");
 		PrivateClientQueue.send(message2);
 		PrivateClientQueue.send(message);
@@ -61,10 +59,10 @@ public class MyserverTest {
 		Message message4 = PrivateServerQueue.receive();
 		textMessage = (TextMessage) message4;
 		text = textMessage.getText();
-		assertEquals("failure - the team is wrong ", "5", text);
-		
-		//测试不存在的组员
-		message2 = session.createTextMessage("张三");
+		assertEquals("failure - the team workers are wrong ", "关清晨\n杨春雨\n周泽宏\n杨宇歆\n张良\n", text);
+		 
+		//测试不存在的组别
+		message2 = session.createTextMessage("11");
 		message = session.createTextMessage("Q");
 		PrivateClientQueue.send(message2);
 		PrivateClientQueue.send(message);
@@ -75,11 +73,11 @@ public class MyserverTest {
 		text = textMessage.getText();
 		assertEquals("failure - strings not same ", "404 not found", text);
 		
-		 //关闭客户端
-		 PrivateClientQueue.close();
-		 PrivateServerQueue.close();
-		 session.close();
-		 connection.close();
+		//关闭客户端
+		PrivateClientQueue.close();
+		PrivateServerQueue.close();
+		session.close();
+		connection.close();
 	}
 
 }

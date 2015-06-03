@@ -43,37 +43,37 @@ public class MyserverTest {
 		Myserver server = new Myserver(destinationName);
 		
 		//测试是否返回OK
-		 Message message = session.createTextMessage("Q");
-		 PrivateClientQueue.send(message);
-		 server.run();
-		 Message message3 = PrivateServerQueue.receive();
-		 TextMessage textMessage = (TextMessage) message3;
-		 String text = textMessage.getText();
-		 assertEquals("failure - the string is not equal to OK ", "OK", text);
-		 
-		 //测试是否能够返回相应组别的成员
-		 Message message2 = session.createTextMessage("5");
-		 message = session.createTextMessage("Q");
-		 PrivateClientQueue.send(message2);
-		 PrivateClientQueue.send(message);
-		 server.run();
-		 message3 = PrivateServerQueue.receive();
-		 Message message4 = PrivateServerQueue.receive();
-		 textMessage = (TextMessage) message4;
-		 text = textMessage.getText();
-		 assertEquals("failure - the team workers are wrong ", "关清晨\n杨春雨\n周泽宏\n杨宇歆\n张良\n", text);
-		 
-		 //测试不存在的组别
-		 message2 = session.createTextMessage("11");
-		 message = session.createTextMessage("Q");
-		 PrivateClientQueue.send(message2);
-		 PrivateClientQueue.send(message);
-		 server.run();
-		 message3 = PrivateServerQueue.receive();
-		 message4 = PrivateServerQueue.receive();
-		 textMessage = (TextMessage) message4;
-		 text = textMessage.getText();
-		 assertEquals("failure - strings not same ", "404 not found", text);
+		Message message = session.createTextMessage("Q");
+		PrivateClientQueue.send(message);
+		server.run();
+		Message message3 = PrivateServerQueue.receive();
+		TextMessage textMessage = (TextMessage) message3;
+		String text = textMessage.getText();
+		assertEquals("failure - the string is not equal to OK ", "OK", text);
+		
+		//测试是否能够返回相应组别的成员
+		Message message2 = session.createTextMessage("5");
+		message = session.createTextMessage("Q");
+		PrivateClientQueue.send(message2);
+		PrivateClientQueue.send(message);
+		server.run();
+		message3 = PrivateServerQueue.receive();
+		Message message4 = PrivateServerQueue.receive();
+		textMessage = (TextMessage) message4;
+		text = textMessage.getText();
+		assertEquals("failure - the team workers are wrong ", "关清晨\n杨春雨\n周泽宏\n杨宇歆\n张良\n", text);
+		
+		//测试不存在的组别
+		message2 = session.createTextMessage("11");
+		message = session.createTextMessage("Q");
+		PrivateClientQueue.send(message2);
+		PrivateClientQueue.send(message);
+		server.run();
+		message3 = PrivateServerQueue.receive();
+		message4 = PrivateServerQueue.receive();
+		textMessage = (TextMessage) message4;
+		text = textMessage.getText();
+		assertEquals("failure - strings not same ", "404 not found", text);
 		
 		 //关闭客户端
 		 PrivateClientQueue.close();
