@@ -77,3 +77,22 @@ dealWaring.OutputInfo();
 写入告警文件失败：Console中输出：something wrong!
 
 ```
+
+---
+
+#V2.0
+
+*	增加功能：连续多条相同的告警信息只输出一条
+* 	支持使用过程中更改告警输出文件路径
+
+**示例程序**
+
+```java
+public static void main(String[] args) {
+    DealWarning warning = new DealWarning("./text");
+    warning.OutputInfo("Hello");
+    warning.OutputInfo("Hello");
+    warning.setOutoutPath(".Hello.txt");
+    warning.OutputInfo("123");
+}
+```
