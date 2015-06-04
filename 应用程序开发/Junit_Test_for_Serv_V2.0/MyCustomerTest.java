@@ -37,25 +37,25 @@ public class MyCustomerTest {
 		connection.start();
 		
 		//构件模拟的服务器端
-		 MyCustomer serverGetRequestCustomer = new MyCustomer(jmsProviderAddress, destinationName);
-		 serverGetRequestCustomer.conStart();
+		MyCustomer serverGetRequestCustomer = new MyCustomer(jmsProviderAddress, destinationName);
+		serverGetRequestCustomer.conStart();
 		 
-		 //客户端发送message
-		 Message message = session.createTextMessage("test");
-		 PublicQueue.send(message);
+		//客户端发送message
+		Message message = session.createTextMessage("test");
+		PublicQueue.send(message);
 		 
-		 //服务器端接收message
-		 String msg = serverGetRequestCustomer.getMsg();
+		//服务器端接收message
+		String msg = serverGetRequestCustomer.getMsg();
 		 
-		 //关闭客户端
-		 PublicQueue.close();
-		 session.close();
-		 connection.close();
+		//关闭客户端
+		PublicQueue.close();
+		session.close();
+		connection.close();
 		 
-		 //关闭服务器端
-		 serverGetRequestCustomer.connClose();
+		//关闭服务器端
+		serverGetRequestCustomer.connClose();
 		 
-		 assertEquals("failure - strings not same", "test", msg);
+		assertEquals("failure - strings not same", "test", msg);
 	}
 
 }

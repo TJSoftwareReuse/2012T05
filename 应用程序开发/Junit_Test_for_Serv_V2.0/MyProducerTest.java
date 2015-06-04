@@ -38,26 +38,26 @@ public class MyProducerTest {
 		connection.start();
 		
 		//构件模拟的服务器端
-		 MyProducer mp = new MyProducer(jmsProviderAddress, destinationName);
-		 mp.connStart();
+		MyProducer mp = new MyProducer(jmsProviderAddress, destinationName);
+		mp.connStart();
 		 
 		//服务器端发送message
-		 mp.sendMsg("test");
+		mp.sendMsg("test");
 		 
-		 //客户端接收message
-		 Message message = PublicQueue.receive();
-		 TextMessage textMessage = (TextMessage) message;
-		 String text = textMessage.getText();
-		 
-		 //关闭客户端
-		 PublicQueue.close();
-		 session.close();
-		 connection.close();
-		 
-		 //关闭服务器端
-		 mp.connClose();
-		 
-		 assertEquals("failure - strings not same", "test", text);
+		//客户端接收message
+		Message message = PublicQueue.receive();
+		TextMessage textMessage = (TextMessage) message;
+		String text = textMessage.getText();
+		
+		//关闭客户端
+		PublicQueue.close();
+		session.close();
+		connection.close();
+		
+		//关闭服务器端
+		mp.connClose();
+		
+		assertEquals("failure - strings not same", "test", text);
 	}
 
 }
